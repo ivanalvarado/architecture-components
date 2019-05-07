@@ -1,4 +1,4 @@
-package com.ivanalvarado.template.di
+package com.ivanalvarado.architecture_components.di
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider

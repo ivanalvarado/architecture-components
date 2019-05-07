@@ -1,10 +1,10 @@
-package com.ivanalvarado.template.di.module
+package com.ivanalvarado.architecture_components.di.module
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import com.ivanalvarado.template.di.ViewModelFactory
-import com.ivanalvarado.template.di.ViewModelKey
-import com.ivanalvarado.template.viewmodel.ExampleViewModel
+import com.ivanalvarado.architecture_components.di.ViewModelFactory
+import com.ivanalvarado.architecture_components.di.ViewModelKey
+import com.ivanalvarado.architecture_components.viewmodel.ExampleViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

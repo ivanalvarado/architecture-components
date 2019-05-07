@@ -1,6 +1,6 @@
-package com.ivanalvarado.template.di.module
+package com.ivanalvarado.architecture_components.di.module
 
-import com.ivanalvarado.template.MainActivity
+import com.ivanalvarado.architecture_components.MainActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

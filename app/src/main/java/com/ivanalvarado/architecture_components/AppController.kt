@@ -1,8 +1,8 @@
-package com.ivanalvarado.template
+package com.ivanalvarado.architecture_components
 
 import android.app.Activity
 import android.app.Application
-import com.ivanalvarado.template.di.component.DaggerAppComponent
+import com.ivanalvarado.architecture_components.di.component.DaggerAppComponent
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import javax.inject.Inject

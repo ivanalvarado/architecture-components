@@ -1,7 +1,7 @@
-package com.ivanalvarado.template.network.services
+package com.ivanalvarado.architecture_components.network.services
 
 import android.database.Observable
-import com.ivanalvarado.template.network.ExampleApiResponse
+import com.ivanalvarado.architecture_components.network.ExampleApiResponse
 import retrofit2.http.GET
 
 interface ExampleApiService {

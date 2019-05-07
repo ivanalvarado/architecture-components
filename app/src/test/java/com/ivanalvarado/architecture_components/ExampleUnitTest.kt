@@ -1,4 +1,4 @@
-package com.ivanalvarado.template
+package com.ivanalvarado.architecture_components
 
 import org.junit.Test
 

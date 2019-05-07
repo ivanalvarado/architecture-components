@@ -1,9 +1,9 @@
-package com.ivanalvarado.template.di.module
+package com.ivanalvarado.architecture_components.di.module
 
 import android.app.Application
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.ivanalvarado.template.network.services.ExampleApiService
+import com.ivanalvarado.architecture_components.network.services.ExampleApiService
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache

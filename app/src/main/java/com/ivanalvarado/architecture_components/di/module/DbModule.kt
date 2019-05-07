@@ -1,11 +1,11 @@
-package com.ivanalvarado.template.di.module
+package com.ivanalvarado.architecture_components.di.module
 
 import android.app.Application
-import com.ivanalvarado.template.database.AppDatabase
+import com.ivanalvarado.architecture_components.database.AppDatabase
 import javax.inject.Singleton
 import dagger.Provides
 import android.arch.persistence.room.Room
-import com.ivanalvarado.template.database.dao.ExampleDao
+import com.ivanalvarado.architecture_components.database.dao.ExampleDao
 import dagger.Module
 
 

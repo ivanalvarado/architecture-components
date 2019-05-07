@@ -1,6 +1,6 @@
-package com.ivanalvarado.template.network
+package com.ivanalvarado.architecture_components.network
 
-import com.ivanalvarado.template.database.entity.ExampleEntity
+import com.ivanalvarado.architecture_components.database.entity.ExampleEntity
 
 data class ExampleApiResponse(
     val page: Long,

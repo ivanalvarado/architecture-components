@@ -1,11 +1,11 @@
-package com.ivanalvarado.template.di.component
+package com.ivanalvarado.architecture_components.di.component
 
 import android.app.Application
-import com.ivanalvarado.template.AppController
-import com.ivanalvarado.template.di.module.ActivityModule
-import com.ivanalvarado.template.di.module.ApiModule
-import com.ivanalvarado.template.di.module.DbModule
-import com.ivanalvarado.template.di.module.ViewModelModule
+import com.ivanalvarado.architecture_components.AppController
+import com.ivanalvarado.architecture_components.di.module.ActivityModule
+import com.ivanalvarado.architecture_components.di.module.ApiModule
+import com.ivanalvarado.architecture_components.di.module.DbModule
+import com.ivanalvarado.architecture_components.di.module.ViewModelModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule

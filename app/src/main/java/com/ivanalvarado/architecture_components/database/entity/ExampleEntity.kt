@@ -1,4 +1,4 @@
-package com.ivanalvarado.template.database.entity
+package com.ivanalvarado.architecture_components.database.entity
 
 import android.arch.persistence.room.Entity
 import com.google.gson.annotations.SerializedName

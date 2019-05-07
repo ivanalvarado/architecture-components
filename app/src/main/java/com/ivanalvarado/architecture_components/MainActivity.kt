@@ -1,10 +1,10 @@
-package com.ivanalvarado.template
+package com.ivanalvarado.architecture_components
 
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.ivanalvarado.template.viewmodel.ExampleViewModel
+import com.ivanalvarado.architecture_components.viewmodel.ExampleViewModel
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
