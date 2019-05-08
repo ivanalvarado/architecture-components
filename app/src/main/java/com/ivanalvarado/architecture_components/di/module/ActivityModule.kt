@@ -1,6 +1,6 @@
 package com.ivanalvarado.architecture_components.di.module
 
-import com.ivanalvarado.architecture_components.UserListActivity
+import com.ivanalvarado.architecture_components.ui.UserListActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
