@@ -3,7 +3,8 @@ package com.ivanalvarado.architecture_components.di.module
 import android.app.Application
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.ivanalvarado.architecture_components.network.services.ExampleApiService
+import com.ivanalvarado.architecture_components.baseUrl
+import com.ivanalvarado.architecture_components.network.services.StackOverflowService
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
@@ -71,7 +72,7 @@ class ApiModule {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .baseUrl("https://api.themoviedb.org/3/")
+            .baseUrl(baseUrl)
             .client(okHttpClient)
             .build()
     }
@@ -85,7 +86,7 @@ class ApiModule {
      * */
     @Provides
     @Singleton
-    internal fun provideExampleApiService(retrofit: Retrofit): ExampleApiService {
-        return retrofit.create(ExampleApiService::class.java)
+    internal fun provideExampleApiService(retrofit: Retrofit): StackOverflowService {
+        return retrofit.create(StackOverflowService::class.java)
     }
 }

@@ -1,10 +1,13 @@
 package com.ivanalvarado.architecture_components
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.ivanalvarado.architecture_components.viewmodel.ExampleViewModel
+import android.util.Log
+import com.ivanalvarado.architecture_components.repository.UserModel
+import com.ivanalvarado.architecture_components.viewmodel.UserListViewModel
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
@@ -19,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     @Inject
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var exampleViewModel: ExampleViewModel
+    private lateinit var userListViewModel: UserListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         /*
@@ -37,6 +40,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpViewModel() {
-        exampleViewModel = ViewModelProviders.of(this, viewModelFactory).get(ExampleViewModel::class.java)
+        userListViewModel = ViewModelProviders.of(this, viewModelFactory).get(UserListViewModel::class.java)
+        userListViewModel.getUsers().observeForever(Observer { users -> users?.let { displayUsers(it) } })
+    }
+
+    private fun displayUsers(users: List<UserModel>) {
+        Log.e("MainActivity", "${users.size}")
     }
 }

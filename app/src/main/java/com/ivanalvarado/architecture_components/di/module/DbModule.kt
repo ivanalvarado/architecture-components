@@ -5,7 +5,7 @@ import com.ivanalvarado.architecture_components.database.AppDatabase
 import javax.inject.Singleton
 import dagger.Provides
 import android.arch.persistence.room.Room
-import com.ivanalvarado.architecture_components.database.dao.ExampleDao
+import com.ivanalvarado.architecture_components.database.dao.UserDao
 import dagger.Module
 
 
@@ -19,7 +19,7 @@ class DbModule {
     @Singleton
     internal fun provideDatabase(application: Application): AppDatabase {
         return Room.databaseBuilder(
-            application, AppDatabase::class.java, "Entertainment.db")
+            application, AppDatabase::class.java, "architecture_components.db")
             .allowMainThreadQueries().build()
     }
 
@@ -31,7 +31,7 @@ class DbModule {
      * */
     @Provides
     @Singleton
-    internal fun provideMovieDao(appDatabase: AppDatabase): ExampleDao {
+    internal fun provideMovieDao(appDatabase: AppDatabase): UserDao {
         return appDatabase.exampleDao()
     }
 }
