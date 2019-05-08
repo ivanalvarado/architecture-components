@@ -1,2 +1,2 @@
-# architecture-components
+# Architecture Components
 Implementation of Android's Architecture Components with Dagger 2, Room, LiveData, MVVM, and Retrofit.
