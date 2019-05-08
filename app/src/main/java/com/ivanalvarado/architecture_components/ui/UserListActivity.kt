@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.widget.SwipeRefreshLayout
 import android.widget.ListView
 import com.ivanalvarado.architecture_components.R
 import com.ivanalvarado.architecture_components.repository.UserModel
@@ -17,7 +18,12 @@ class UserListActivity : AppCompatActivity() {
 
     @Inject internal lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var userListViewModel: UserListViewModel
+    private lateinit var userListAdapter: UserListAdapter
+
+    // UI Widgets
     private lateinit var usersListView: ListView
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -30,16 +36,24 @@ class UserListActivity : AppCompatActivity() {
     }
 
     private fun setUpUi() {
+        userListAdapter = UserListAdapter(this, emptyList())
         usersListView = findViewById(R.id.user_list)
+        usersListView.adapter = userListAdapter
+        swipeRefreshLayout = findViewById(R.id.user_list_swipe_refresh_layout)
+        swipeRefreshLayout.isRefreshing = true
     }
 
     private fun setUpViewModel() {
         userListViewModel = ViewModelProviders.of(this, viewModelFactory).get(UserListViewModel::class.java)
         userListViewModel.getUsers().observe(this, Observer { users -> users?.let { displayUsers(it) } })
+        swipeRefreshLayout.setOnRefreshListener {
+            swipeRefreshLayout.isRefreshing = true
+            userListViewModel.getUsers()
+        }
     }
 
     private fun displayUsers(users: List<UserModel>) {
-        val adapter = UserListAdapter(this, users)
-        usersListView.adapter = adapter
+        swipeRefreshLayout.isRefreshing = false
+        userListAdapter.setUserList(users)
     }
 }

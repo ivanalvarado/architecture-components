@@ -10,7 +10,7 @@ import android.view.LayoutInflater
 import android.widget.TextView
 import com.ivanalvarado.architecture_components.R
 
-class UserListAdapter constructor(private val context: Context, private val users: List<UserModel>) : BaseAdapter() {
+class UserListAdapter constructor(private val context: Context, private var users: List<UserModel>) : BaseAdapter() {
 
     private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
@@ -32,5 +32,10 @@ class UserListAdapter constructor(private val context: Context, private val user
 
     override fun getCount(): Int {
         return users.size
+    }
+
+    fun setUserList(users: List<UserModel>) {
+        this.users = users
+        notifyDataSetChanged()
     }
 }
