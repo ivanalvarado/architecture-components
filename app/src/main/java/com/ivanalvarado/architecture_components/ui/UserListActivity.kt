@@ -43,7 +43,7 @@ class UserListActivity : AppCompatActivity() {
         usersListView.adapter = userListAdapter
         swipeRefreshLayout = findViewById(R.id.user_list_swipe_refresh_layout)
         swipeRefreshLayout.setOnRefreshListener {
-            userListViewModel.getUsers()
+            userListViewModel.refreshUsers()
         }
     }
 
