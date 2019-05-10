@@ -12,5 +12,7 @@ class UserListViewModel @Inject constructor(private val userRepository: UserRepo
 
     }
 
-    fun getUsers(): LiveData<List<UserModel>> = userRepository.getUsers()
+    fun getUsers(): LiveData<List<UserModel>> {
+        return userRepository.getUsers()
+    }
 }

@@ -31,8 +31,10 @@ class UserListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        userListViewModel = ViewModelProviders.of(this, viewModelFactory).get(UserListViewModel::class.java)
+
         setUpUi()
-        setUpViewModel()
+        fetchUsers()
     }
 
     private fun setUpUi() {
@@ -40,16 +42,14 @@ class UserListActivity : AppCompatActivity() {
         usersListView = findViewById(R.id.user_list)
         usersListView.adapter = userListAdapter
         swipeRefreshLayout = findViewById(R.id.user_list_swipe_refresh_layout)
-        swipeRefreshLayout.isRefreshing = true
-    }
-
-    private fun setUpViewModel() {
-        userListViewModel = ViewModelProviders.of(this, viewModelFactory).get(UserListViewModel::class.java)
-        userListViewModel.getUsers().observe(this, Observer { users -> users?.let { displayUsers(it) } })
         swipeRefreshLayout.setOnRefreshListener {
-            swipeRefreshLayout.isRefreshing = true
             userListViewModel.getUsers()
         }
+    }
+
+    private fun fetchUsers() {
+        swipeRefreshLayout.isRefreshing = true
+        userListViewModel.getUsers().observe(this, Observer { users -> users?.let { displayUsers(it) } })
     }
 
     private fun displayUsers(users: List<UserModel>) {
