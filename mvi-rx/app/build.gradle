@@ -17,7 +17,11 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            buildConfigField "String", "STACK_EXCHANGE_URL", "\"https://api.stackexchange.com/2.2/\""
+        }
         release {
+            buildConfigField "String", "STACK_EXCHANGE_URL", "\"https://api.stackexchange.com/2.2/\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -41,7 +45,6 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
-
 
     /* Picasso lib for image loading  */
     implementation 'com.squareup.picasso:picasso:2.71828'
