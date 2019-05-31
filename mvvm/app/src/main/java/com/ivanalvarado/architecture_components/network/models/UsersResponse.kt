@@ -1,6 +1,7 @@
-package com.ivanalvarado.architecture_components.network
+package com.ivanalvarado.architecture_components.network.models
 
 import com.google.gson.annotations.SerializedName
+import com.ivanalvarado.architecture_components.database.entity.UserDetailEntity
 import com.ivanalvarado.architecture_components.database.entity.UserEntity
 
 data class UsersResponse(
@@ -40,6 +41,30 @@ data class User(
             profile_image,
             website_url,
             last_access_date
+        )
+    }
+
+    fun toUserDetailEntity(): UserDetailEntity {
+        return UserDetailEntity(
+            user_id,
+            display_name,
+            reputation,
+            profile_image,
+            website_url,
+            last_access_date,
+            accept_rate,
+            account_id,
+            creation_date,
+            is_employee,
+            last_modified_date,
+            link,
+            location,
+            reputation_change_day,
+            reputation_change_month,
+            reputation_change_quarter,
+            reputation_change_week,
+            reputation_change_year,
+            user_type
         )
     }
 }

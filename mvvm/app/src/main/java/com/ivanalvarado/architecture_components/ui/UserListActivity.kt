@@ -6,9 +6,11 @@ import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ListView
 import com.ivanalvarado.architecture_components.R
-import com.ivanalvarado.architecture_components.repository.UserModel
+import com.ivanalvarado.architecture_components.repository.models.UserModel
 import com.ivanalvarado.architecture_components.ui.adapter.UserListAdapter
 import com.ivanalvarado.architecture_components.viewmodel.UserListViewModel
 import dagger.android.AndroidInjection
@@ -44,6 +46,11 @@ class UserListActivity : AppCompatActivity() {
         swipeRefreshLayout = findViewById(R.id.user_list_swipe_refresh_layout)
         swipeRefreshLayout.setOnRefreshListener {
             userListViewModel.refreshUsers()
+        }
+
+        usersListView.setOnItemClickListener { parent: AdapterView<*>, view: View, position: Int, id: Long ->
+            val user = usersListView.getItemAtPosition(position) as UserModel
+            TODO("Start UserDetailActivity")
         }
     }
 

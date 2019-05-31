@@ -5,7 +5,7 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import com.ivanalvarado.architecture_components.repository.UserModel
+import com.ivanalvarado.architecture_components.repository.models.UserModel
 import android.view.LayoutInflater
 import android.widget.TextView
 import com.ivanalvarado.architecture_components.R

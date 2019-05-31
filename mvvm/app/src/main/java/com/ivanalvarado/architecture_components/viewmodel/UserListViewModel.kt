@@ -4,7 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Transformations
 import android.arch.lifecycle.ViewModel
-import com.ivanalvarado.architecture_components.repository.UserModel
+import com.ivanalvarado.architecture_components.repository.models.UserModel
 import com.ivanalvarado.architecture_components.repository.UserRepository
 import javax.inject.Inject
 

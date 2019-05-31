@@ -1,5 +1,6 @@
 package com.ivanalvarado.architecture_components.di.module
 
+import com.ivanalvarado.architecture_components.ui.UserDetailActivity
 import com.ivanalvarado.architecture_components.ui.UserListActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -8,5 +9,8 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivityModule {
 
     @ContributesAndroidInjector()
-    abstract fun contributeMainActivity(): UserListActivity
+    abstract fun contributeUserListActivity(): UserListActivity
+
+    @ContributesAndroidInjector()
+    abstract fun contributeUserDetailActivity(): UserDetailActivity
 }

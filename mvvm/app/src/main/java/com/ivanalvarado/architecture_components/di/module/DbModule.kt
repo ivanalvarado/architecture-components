@@ -6,6 +6,7 @@ import javax.inject.Singleton
 import dagger.Provides
 import android.arch.persistence.room.Room
 import com.ivanalvarado.architecture_components.database.dao.UserDao
+import com.ivanalvarado.architecture_components.database.dao.UserDetailDao
 import dagger.Module
 
 
@@ -31,7 +32,18 @@ class DbModule {
      * */
     @Provides
     @Singleton
-    internal fun provideMovieDao(appDatabase: AppDatabase): UserDao {
-        return appDatabase.exampleDao()
+    internal fun provideUserDao(appDatabase: AppDatabase): UserDao {
+        return appDatabase.userDao()
+    }
+
+    /*
+     * We need the MovieDao module.
+     * For this, We need the AppDatabase object
+     * So we will define the providers for this here in this module.
+     * */
+    @Provides
+    @Singleton
+    internal fun provideUserDetailDao(appDatabase: AppDatabase): UserDetailDao {
+        return appDatabase.userDetailDao()
     }
 }
