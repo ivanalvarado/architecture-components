@@ -18,4 +18,7 @@ interface UserDetailDao {
 
     @Query("SELECT * FROM user_detail WHERE id = :id")
     fun getUserDetailStream(id: String): LiveData<UserDetailEntity>
+
+    @Query("SELECT EXISTS(SELECT 1 FROM user_detail WHERE id = :id)")
+    fun hasUserDetail(id: String): Boolean
 }

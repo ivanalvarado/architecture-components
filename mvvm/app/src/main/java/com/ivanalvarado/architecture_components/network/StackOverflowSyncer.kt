@@ -9,11 +9,13 @@ import com.ivanalvarado.architecture_components.network.services.StackOverflowSe
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.concurrent.Executor
 import javax.inject.Inject
 
 class StackOverflowSyncer @Inject constructor(
     private val stackOverflowService: StackOverflowService,
     private val usersDao: UserDao,
+    private val executor: Executor,
     private val userDetailDao: UserDetailDao
 ) {
     private val TAG = StackOverflowSyncer::class.java.simpleName
@@ -38,21 +40,29 @@ class StackOverflowSyncer @Inject constructor(
     }
 
     fun refreshUserDetail(userId: String) {
-        stackOverflowService.getUserDetail(userId).enqueue(object : Callback<UsersResponse> {
-            override fun onFailure(call: Call<UsersResponse>, t: Throwable) {
-                Log.e(TAG, "Failed to get User Detail: ${t.localizedMessage}")
-            }
 
-            override fun onResponse(call: Call<UsersResponse>, response: Response<UsersResponse>) {
-                if (response.isSuccessful) {
-                    val userDetail = response.body()
-                    userDetail?.users?.let {
-                        userDetailDao.insert(it[0].toUserDetailEntity())
-                    }
-                } else {
-                    TODO("Unsuccessful response not implemented")
+        executor.execute {
+            val userExists = userDetailDao.hasUserDetail(userId /* TODO("Add timestamp in milliseconds") */)
+            val response = stackOverflowService.getUserDetail(userId).execute()
+
+            if (response.isSuccessful) {
+                val userDetail = response.body()
+                userDetail?.users?.let {
+                    userDetailDao.insert(it[0].toUserDetailEntity())
                 }
+            } else {
+                TODO("Unsuccessful response not implemented")
             }
-        })
+        }
+
+//        stackOverflowService.getUserDetail(userId).enqueue(object : Callback<UsersResponse> {
+//            override fun onFailure(call: Call<UsersResponse>, t: Throwable) {
+//                Log.e(TAG, "Failed to get User Detail: ${t.localizedMessage}")
+//            }
+//
+//            override fun onResponse(call: Call<UsersResponse>, response: Response<UsersResponse>) {
+//
+//            }
+//        })
     }
 }
