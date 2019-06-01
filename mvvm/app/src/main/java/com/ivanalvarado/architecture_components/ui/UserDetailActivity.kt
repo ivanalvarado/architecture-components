@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.widget.SwipeRefreshLayout
 import android.widget.TextView
 import com.ivanalvarado.architecture_components.R
 import com.ivanalvarado.architecture_components.viewmodel.UserDetailViewModel
@@ -20,6 +21,7 @@ class UserDetailActivity : AppCompatActivity() {
     private lateinit var userDetailViewModel: UserDetailViewModel
 
     // UI Widgets
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var userNameTextView: TextView
     private lateinit var userReputationTextView: TextView
     private lateinit var userLocationTextView: TextView
@@ -45,6 +47,10 @@ class UserDetailActivity : AppCompatActivity() {
         userReputationTextView = findViewById(R.id.user_detail_reputation_text_view)
         userLocationTextView = findViewById(R.id.user_detail_location_text_view)
         userTypeTextView = findViewById(R.id.user_detail_type_text_view)
+        swipeRefreshLayout = findViewById(R.id.user_detail_swipe_refresh_layout)
+        swipeRefreshLayout.setOnRefreshListener {
+            userDetailViewModel.refreshUserDetail()
+        }
     }
 
     private fun fetchUserDetail() {

@@ -45,7 +45,8 @@ class UserRepository @Inject constructor(
                     it.userType
                 )
             }
-
         }
+        
+        TODO("Only fetch if user pulls to refresh or if data is outdated")
     }
 }
