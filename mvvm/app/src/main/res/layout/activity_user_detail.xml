@@ -7,4 +7,44 @@
         android:layout_height="match_parent"
         tools:context="com.ivanalvarado.architecture_components.ui.UserDetailActivity">
 
+    <TextView
+            android:id="@+id/user_detail_name_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="John Skeet"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"/>
+
+    <TextView
+            android:id="@+id/user_detail_reputation_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="1000000"
+            app:layout_constraintTop_toBottomOf="@+id/user_detail_name_text_view"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"/>
+
+    <TextView
+            android:id="@+id/user_detail_location_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Los Angeles, CA"
+            app:layout_constraintTop_toBottomOf="@+id/user_detail_reputation_text_view"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"/>
+
+    <TextView
+            android:id="@+id/user_detail_type_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="User Type"
+            app:layout_constraintTop_toBottomOf="@+id/user_detail_location_text_view"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"/>
+
 </android.support.constraint.ConstraintLayout>
