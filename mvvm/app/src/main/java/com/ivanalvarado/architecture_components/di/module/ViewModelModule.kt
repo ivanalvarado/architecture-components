@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.ivanalvarado.architecture_components.di.ViewModelFactory
 import com.ivanalvarado.architecture_components.di.ViewModelKey
+import com.ivanalvarado.architecture_components.viewmodel.UserDetailViewModel
 import com.ivanalvarado.architecture_components.viewmodel.UserListViewModel
 import dagger.Binds
 import dagger.Module
@@ -26,5 +27,10 @@ internal abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(UserListViewModel::class)
-    protected abstract fun exampleListViewModel(userListListViewModel: UserListViewModel): ViewModel
+    protected abstract fun userListViewModel(userListViewModel: UserListViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(UserDetailViewModel::class)
+    protected abstract fun userDetailViewModel(userDetailViewModel: UserDetailViewModel): ViewModel
 }

@@ -3,6 +3,7 @@ package com.ivanalvarado.architecture_components.ui
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
@@ -18,7 +19,8 @@ import javax.inject.Inject
 
 class UserListActivity : AppCompatActivity() {
 
-    @Inject internal lateinit var viewModelFactory: ViewModelProvider.Factory
+    @Inject
+    internal lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var userListViewModel: UserListViewModel
     private lateinit var userListAdapter: UserListAdapter
 
@@ -50,7 +52,10 @@ class UserListActivity : AppCompatActivity() {
 
         usersListView.setOnItemClickListener { parent: AdapterView<*>, view: View, position: Int, id: Long ->
             val user = usersListView.getItemAtPosition(position) as UserModel
-            TODO("Start UserDetailActivity")
+            val intent = Intent(this, UserDetailActivity::class.java).apply {
+                putExtra(ARGUMENT_USER_ID, user.userId)
+            }
+            startActivity(intent)
         }
     }
 

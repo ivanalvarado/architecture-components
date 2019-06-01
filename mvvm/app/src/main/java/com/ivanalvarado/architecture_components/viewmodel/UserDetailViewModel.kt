@@ -16,8 +16,8 @@ class UserDetailViewModel @Inject constructor(private val userRepository: UserRe
         userRepository.getUserDetail(userId)
     }
 
-    fun setUserId(userId: String) {
-        this.userId = userId
+    fun setUserId(userId: Int) {
+        this.userId = userId.toString()
         refreshUserDetail()
     }
 

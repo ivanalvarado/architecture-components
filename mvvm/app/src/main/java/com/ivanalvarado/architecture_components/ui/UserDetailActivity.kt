@@ -23,7 +23,7 @@ class UserDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_detail)
 
-        val userId = intent.getStringExtra(ARGUMENT_USER_ID)
+        val userId = intent.getIntExtra(ARGUMENT_USER_ID, 0)
 
         userDetailViewModel = ViewModelProviders.of(this, viewModelFactory).get(UserDetailViewModel::class.java)
         userDetailViewModel.setUserId(userId)
