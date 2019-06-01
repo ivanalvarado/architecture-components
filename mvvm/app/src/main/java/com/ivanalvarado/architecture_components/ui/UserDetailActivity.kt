@@ -35,6 +35,8 @@ class UserDetailActivity : AppCompatActivity() {
 
         userDetailViewModel = ViewModelProviders.of(this, viewModelFactory).get(UserDetailViewModel::class.java)
         userDetailViewModel.setUserId(userId)
+
+        setUpUi()
         fetchUserDetail()
     }
 
@@ -46,6 +48,14 @@ class UserDetailActivity : AppCompatActivity() {
     }
 
     private fun fetchUserDetail() {
-        userDetailViewModel.getUserDetail().observe(this, Observer { TODO("Display UserDetail") })
+        userDetailViewModel.getUserDetail().observe(this, Observer { userDetail ->
+            userDetail?.let {
+                userNameTextView.text = it.userName
+                userReputationTextView.text = it.reputation.toString()
+                userLocationTextView.text = it.location
+                userTypeTextView.text = it.userType
+            }
+
+        })
     }
 }

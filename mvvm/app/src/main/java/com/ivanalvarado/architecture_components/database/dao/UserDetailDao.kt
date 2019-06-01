@@ -16,6 +16,6 @@ interface UserDetailDao {
     @Query("SELECT * FROM user_detail")
     fun getUserDetail(): List<UserDetailEntity>
 
-    @Query("SELECT * FROM user_detail")
-    fun getUserDetailStream(): LiveData<UserDetailEntity>
+    @Query("SELECT * FROM user_detail WHERE id = :id")
+    fun getUserDetailStream(id: String): LiveData<UserDetailEntity>
 }

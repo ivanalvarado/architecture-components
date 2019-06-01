@@ -6,6 +6,6 @@ data class UserDetailModel(
     val imageUrl: String,
     val websiteUrl: String,
     val acceptRate: Int,
-    val location: String,
+    val location: String? = "",
     val userType: String
 )

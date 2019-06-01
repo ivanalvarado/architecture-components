@@ -33,16 +33,19 @@ class UserRepository @Inject constructor(
 
     fun getUserDetail(userId: String): LiveData<UserDetailModel> {
         stackOverflowSyncer.refreshUserDetail(userId)
-        return Transformations.map(userDetailDao.getUserDetailStream()) {
-            UserDetailModel(
-                it.userName,
-                it.reputation,
-                it.imageUrl,
-                it.websiteUrl,
-                it.acceptRate,
-                it.location,
-                it.userType
-            )
+        return Transformations.map(userDetailDao.getUserDetailStream(userId)) { userDetailEntity ->
+            userDetailEntity?.let {
+                UserDetailModel(
+                    it.userName,
+                    it.reputation,
+                    it.imageUrl,
+                    it.websiteUrl,
+                    it.acceptRate,
+                    it.location,
+                    it.userType
+                )
+            }
+
         }
     }
 }

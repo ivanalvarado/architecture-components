@@ -19,7 +19,7 @@ data class UserDetailEntity(
     @ColumnInfo(name = "is_employee") val isEmployee: Boolean,
     @ColumnInfo(name = "last_modified_date") val lastModifiedDate: Int,
     @ColumnInfo(name = "link") val link: String,
-    @ColumnInfo(name = "location") val location: String,
+    @ColumnInfo(name = "location") val location: String? = "",
     @ColumnInfo(name = "reputation_change_day") val reputationChangeDay: Int,
     @ColumnInfo(name = "reputation_change_month") val reputationChangeMonth: Int,
     @ColumnInfo(name = "reputation_change_quarter") val reputationChangeQuarter: Int,

@@ -12,5 +12,5 @@ interface StackOverflowService {
     fun getUsers(): Call<UsersResponse>
 
     @GET("users/{id}?site=stackoverflow")
-    fun getUserDetail(@Path("id") id: String): Call<User>
+    fun getUserDetail(@Path("id") id: String): Call<UsersResponse>
 }

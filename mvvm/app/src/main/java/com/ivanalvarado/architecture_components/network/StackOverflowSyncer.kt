@@ -1,5 +1,6 @@
 package com.ivanalvarado.architecture_components.network
 
+import android.util.Log
 import com.ivanalvarado.architecture_components.database.dao.UserDao
 import com.ivanalvarado.architecture_components.database.dao.UserDetailDao
 import com.ivanalvarado.architecture_components.network.models.User
@@ -15,6 +16,7 @@ class StackOverflowSyncer @Inject constructor(
     private val usersDao: UserDao,
     private val userDetailDao: UserDetailDao
 ) {
+    private val TAG = StackOverflowSyncer::class.java.simpleName
 
     fun refreshUsers() {
         stackOverflowService.getUsers().enqueue(object : Callback<UsersResponse> {
@@ -36,15 +38,17 @@ class StackOverflowSyncer @Inject constructor(
     }
 
     fun refreshUserDetail(userId: String) {
-        stackOverflowService.getUserDetail(userId).enqueue(object : Callback<User> {
-            override fun onFailure(call: Call<User>, t: Throwable) {
-                TODO("Failure for getUserDetail() not implemented")
+        stackOverflowService.getUserDetail(userId).enqueue(object : Callback<UsersResponse> {
+            override fun onFailure(call: Call<UsersResponse>, t: Throwable) {
+                Log.e(TAG, "Failed to get User Detail: ${t.localizedMessage}")
             }
 
-            override fun onResponse(call: Call<User>, response: Response<User>) {
+            override fun onResponse(call: Call<UsersResponse>, response: Response<UsersResponse>) {
                 if (response.isSuccessful) {
                     val userDetail = response.body()
-                    userDetail?.let { userDetailDao.insert(userDetail.toUserDetailEntity()) }
+                    userDetail?.users?.let {
+                        userDetailDao.insert(it[0].toUserDetailEntity())
+                    }
                 } else {
                     TODO("Unsuccessful response not implemented")
                 }
