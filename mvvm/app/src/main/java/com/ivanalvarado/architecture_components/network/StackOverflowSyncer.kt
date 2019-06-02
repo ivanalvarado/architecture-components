@@ -1,9 +1,7 @@
 package com.ivanalvarado.architecture_components.network
 
-import android.util.Log
 import com.ivanalvarado.architecture_components.database.dao.UserDao
 import com.ivanalvarado.architecture_components.database.dao.UserDetailDao
-import com.ivanalvarado.architecture_components.network.models.User
 import com.ivanalvarado.architecture_components.network.models.UsersResponse
 import com.ivanalvarado.architecture_components.network.services.StackOverflowService
 import retrofit2.Call
@@ -39,19 +37,22 @@ class StackOverflowSyncer @Inject constructor(
         })
     }
 
-    fun refreshUserDetail(userId: String) {
+    fun refreshUserDetail(userId: String, forceRefresh: Boolean) {
 
         executor.execute {
             val userExists = userDetailDao.hasUserDetail(userId /* TODO("Add timestamp in milliseconds") */)
-            val response = stackOverflowService.getUserDetail(userId).execute()
 
-            if (response.isSuccessful) {
-                val userDetail = response.body()
-                userDetail?.users?.let {
-                    userDetailDao.insert(it[0].toUserDetailEntity())
+            if (!userExists || forceRefresh) {
+                val response = stackOverflowService.getUserDetail(userId).execute()
+
+                if (response.isSuccessful) {
+                    val userDetail = response.body()
+                    userDetail?.users?.let {
+                        userDetailDao.insert(it[0].toUserDetailEntity())
+                    }
+                } else {
+                    TODO("Unsuccessful response not implemented")
                 }
-            } else {
-                TODO("Unsuccessful response not implemented")
             }
         }
 

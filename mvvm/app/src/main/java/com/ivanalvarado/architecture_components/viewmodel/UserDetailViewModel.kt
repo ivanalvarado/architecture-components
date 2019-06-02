@@ -13,7 +13,7 @@ class UserDetailViewModel @Inject constructor(private val userRepository: UserRe
     private lateinit var userId: String
     private val reloadTrigger = MutableLiveData<Boolean>()
     private val userDetail: LiveData<UserDetailModel> = Transformations.switchMap(reloadTrigger) {
-        userRepository.getUserDetail(userId)
+        userRepository.getUserDetail(userId, reloadTrigger.value!!)
     }
 
     fun setUserId(userId: Int) {
@@ -23,7 +23,7 @@ class UserDetailViewModel @Inject constructor(private val userRepository: UserRe
 
     fun getUserDetail(): LiveData<UserDetailModel> = userDetail
 
-    fun refreshUserDetail() {
-        reloadTrigger.value = true
+    fun refreshUserDetail(forceRefresh: Boolean = false) {
+        reloadTrigger.value = forceRefresh
     }
 }

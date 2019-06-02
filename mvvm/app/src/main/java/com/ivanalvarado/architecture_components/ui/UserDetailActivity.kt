@@ -49,19 +49,19 @@ class UserDetailActivity : AppCompatActivity() {
         userTypeTextView = findViewById(R.id.user_detail_type_text_view)
         swipeRefreshLayout = findViewById(R.id.user_detail_swipe_refresh_layout)
         swipeRefreshLayout.setOnRefreshListener {
-            userDetailViewModel.refreshUserDetail()
+            userDetailViewModel.refreshUserDetail(forceRefresh = true)
         }
     }
 
     private fun fetchUserDetail() {
         userDetailViewModel.getUserDetail().observe(this, Observer { userDetail ->
+            swipeRefreshLayout.isRefreshing = false
             userDetail?.let {
                 userNameTextView.text = it.userName
                 userReputationTextView.text = it.reputation.toString()
                 userLocationTextView.text = it.location
                 userTypeTextView.text = it.userType
             }
-
         })
     }
 }

@@ -31,8 +31,8 @@ class UserRepository @Inject constructor(
         }
     }
 
-    fun getUserDetail(userId: String): LiveData<UserDetailModel> {
-        stackOverflowSyncer.refreshUserDetail(userId)
+    fun getUserDetail(userId: String, forceRefresh: Boolean): LiveData<UserDetailModel> {
+        stackOverflowSyncer.refreshUserDetail(userId, forceRefresh)
         return Transformations.map(userDetailDao.getUserDetailStream(userId)) { userDetailEntity ->
             userDetailEntity?.let {
                 UserDetailModel(

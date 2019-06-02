@@ -13,12 +13,12 @@ interface UserDetailDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(userDetail: UserDetailEntity): Long
 
-    @Query("SELECT * FROM user_detail")
-    fun getUserDetail(): List<UserDetailEntity>
+    @Query("SELECT EXISTS(SELECT 1 FROM user_detail WHERE id = :id)")
+    fun hasUserDetail(id: String): Boolean
+
+    @Query("SELECT * FROM user_detail WHERE id = :id")
+    fun getUserDetail(id: String): List<UserDetailEntity>
 
     @Query("SELECT * FROM user_detail WHERE id = :id")
     fun getUserDetailStream(id: String): LiveData<UserDetailEntity>
-
-    @Query("SELECT EXISTS(SELECT 1 FROM user_detail WHERE id = :id)")
-    fun hasUserDetail(id: String): Boolean
 }
