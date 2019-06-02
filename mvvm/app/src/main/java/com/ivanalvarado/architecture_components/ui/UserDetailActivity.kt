@@ -6,9 +6,11 @@ import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
+import android.widget.ImageView
 import android.widget.TextView
 import com.ivanalvarado.architecture_components.R
 import com.ivanalvarado.architecture_components.viewmodel.UserDetailViewModel
+import com.squareup.picasso.Picasso
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
@@ -22,6 +24,7 @@ class UserDetailActivity : AppCompatActivity() {
 
     // UI Widgets
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var userProfileImage: ImageView
     private lateinit var userNameTextView: TextView
     private lateinit var userReputationTextView: TextView
     private lateinit var userLocationTextView: TextView
@@ -43,6 +46,7 @@ class UserDetailActivity : AppCompatActivity() {
     }
 
     private fun setUpUi() {
+        userProfileImage = findViewById(R.id.user_detail_profile_image)
         userNameTextView = findViewById(R.id.user_detail_name_text_view)
         userReputationTextView = findViewById(R.id.user_detail_reputation_text_view)
         userLocationTextView = findViewById(R.id.user_detail_location_text_view)
@@ -57,6 +61,7 @@ class UserDetailActivity : AppCompatActivity() {
         userDetailViewModel.getUserDetail().observe(this, Observer { userDetail ->
             swipeRefreshLayout.isRefreshing = false
             userDetail?.let {
+                Picasso.get().load(it.imageUrl).into(userProfileImage)
                 userNameTextView.text = it.userName
                 userReputationTextView.text = it.reputation.toString()
                 userLocationTextView.text = it.location

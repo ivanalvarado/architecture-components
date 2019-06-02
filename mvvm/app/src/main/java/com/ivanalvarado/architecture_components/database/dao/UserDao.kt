@@ -19,6 +19,6 @@ interface UserDao {
     @Query("SELECT * FROM users")
     fun getUsers(): List<UserEntity>
 
-    @Query("SELECT * FROM users")
+    @Query("SELECT * FROM users ORDER BY reputation DESC")
     fun getUsersStream(): LiveData<List<UserEntity>>
 }
