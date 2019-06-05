@@ -8,7 +8,9 @@ import com.ivanalvarado.architecture_components.repository.models.UserModel
 import com.ivanalvarado.architecture_components.repository.UserRepository
 import javax.inject.Inject
 
-class UserListViewModel @Inject constructor(private val userRepository: UserRepository) : ViewModel() {
+class UserListViewModel @Inject constructor(
+    private val userRepository: UserRepository
+) : ViewModel() {
 
     private val reloadTrigger = MutableLiveData<Boolean>()
     private val users: LiveData<List<UserModel>> = Transformations.switchMap(reloadTrigger) {

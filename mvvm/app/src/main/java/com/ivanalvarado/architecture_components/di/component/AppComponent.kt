@@ -4,6 +4,7 @@ import android.app.Application
 import com.ivanalvarado.architecture_components.AppController
 import com.ivanalvarado.architecture_components.di.module.*
 import com.ivanalvarado.architecture_components.viewmodel.UserDetailViewModel
+import com.ivanalvarado.architecture_components.viewmodel.UserListViewModel
 import com.squareup.inject.assisted.dagger2.AssistedModule
 import dagger.BindsInstance
 import dagger.Component
@@ -23,11 +24,11 @@ import javax.inject.Singleton
     modules = [
         ApiModule::class,
         DbModule::class,
-        ViewModelModule::class,
         ActivityModule::class,
         AndroidSupportInjectionModule::class,
         ConcurrencyModule::class,
-        AssistedInjectModule::class]
+        AssistedInjectModule::class
+    ]
 )
 @Singleton
 interface AppComponent {
@@ -53,6 +54,7 @@ interface AppComponent {
      * */
     fun inject(appController: AppController)
 
+    val userListViewModel: UserListViewModel
     val userDetailViewModelFactory: UserDetailViewModel.Factory
 }
 

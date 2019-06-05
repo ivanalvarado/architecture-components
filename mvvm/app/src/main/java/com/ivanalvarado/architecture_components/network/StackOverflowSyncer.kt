@@ -55,15 +55,5 @@ class StackOverflowSyncer @Inject constructor(
                 }
             }
         }
-
-//        stackOverflowService.getUserDetail(userId).enqueue(object : Callback<UsersResponse> {
-//            override fun onFailure(call: Call<UsersResponse>, t: Throwable) {
-//                Log.e(TAG, "Failed to get User Detail: ${t.localizedMessage}")
-//            }
-//
-//            override fun onResponse(call: Call<UsersResponse>, response: Response<UsersResponse>) {
-//
-//            }
-//        })
     }
 }

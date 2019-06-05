@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ivanalvarado.architecture_components.R
+import com.ivanalvarado.architecture_components.di.viewModel
 import com.ivanalvarado.architecture_components.injector
 import com.squareup.picasso.Picasso
 import dagger.android.AndroidInjection
@@ -15,7 +16,7 @@ const val ARGUMENT_USER_ID = "ARGUMENT_USER_ID"
 
 class UserDetailActivity : AppCompatActivity() {
 
-    private val userDetailViewModel by lazy {
+    private val userDetailViewModel by viewModel {
         injector.userDetailViewModelFactory.create(
             userId = intent.getIntExtra(ARGUMENT_USER_ID, 0)
         )

@@ -7,21 +7,20 @@ import android.widget.AdapterView
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ivanalvarado.architecture_components.R
+import com.ivanalvarado.architecture_components.di.viewModel
+import com.ivanalvarado.architecture_components.injector
 import com.ivanalvarado.architecture_components.repository.models.UserModel
 import com.ivanalvarado.architecture_components.ui.adapter.UserListAdapter
-import com.ivanalvarado.architecture_components.viewmodel.UserListViewModel
 import dagger.android.AndroidInjection
-import javax.inject.Inject
 
 class UserListActivity : AppCompatActivity() {
 
-    @Inject
-    internal lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var userListViewModel: UserListViewModel
+    private val userListViewModel by viewModel{
+        injector.userListViewModel
+    }
+
     private lateinit var userListAdapter: UserListAdapter
 
     // UI Widgets
@@ -34,8 +33,6 @@ class UserListActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        userListViewModel = ViewModelProviders.of(this, viewModelFactory).get(UserListViewModel::class.java)
 
         setUpUi()
         fetchUsers()
