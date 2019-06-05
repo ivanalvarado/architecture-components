@@ -4,7 +4,7 @@ import android.app.Application
 import com.ivanalvarado.architecture_components.database.AppDatabase
 import javax.inject.Singleton
 import dagger.Provides
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import com.ivanalvarado.architecture_components.database.dao.UserDao
 import com.ivanalvarado.architecture_components.database.dao.UserDetailDao
 import dagger.Module

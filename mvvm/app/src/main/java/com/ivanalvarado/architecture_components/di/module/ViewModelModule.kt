@@ -1,7 +1,7 @@
 package com.ivanalvarado.architecture_components.di.module
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.ivanalvarado.architecture_components.di.ViewModelFactory
 import com.ivanalvarado.architecture_components.di.ViewModelKey
 import com.ivanalvarado.architecture_components.viewmodel.UserDetailViewModel

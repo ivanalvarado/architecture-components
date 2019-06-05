@@ -1,10 +1,9 @@
 package com.ivanalvarado.architecture_components.database.entity
 
-import android.arch.persistence.room.ColumnInfo
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
-import android.support.annotation.NonNull
-import com.google.gson.annotations.SerializedName
+import androidx.annotation.NonNull
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "users")
 data class UserEntity(

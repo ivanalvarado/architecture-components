@@ -1,9 +1,9 @@
 package com.ivanalvarado.architecture_components.viewmodel
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Transformations
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
 import com.ivanalvarado.architecture_components.repository.UserRepository
 import com.ivanalvarado.architecture_components.repository.models.UserDetailModel
 import javax.inject.Inject

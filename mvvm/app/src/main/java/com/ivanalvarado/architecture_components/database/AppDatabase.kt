@@ -1,7 +1,7 @@
 package com.ivanalvarado.architecture_components.database
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.RoomDatabase
+import androidx.room.Database
+import androidx.room.RoomDatabase
 import com.ivanalvarado.architecture_components.database.dao.UserDao
 import com.ivanalvarado.architecture_components.database.dao.UserDetailDao
 import com.ivanalvarado.architecture_components.database.entity.UserDetailEntity

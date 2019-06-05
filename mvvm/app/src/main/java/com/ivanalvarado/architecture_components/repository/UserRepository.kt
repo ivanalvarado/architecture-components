@@ -1,7 +1,7 @@
 package com.ivanalvarado.architecture_components.repository
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.Transformations
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
 import com.ivanalvarado.architecture_components.database.dao.UserDao
 import com.ivanalvarado.architecture_components.database.dao.UserDetailDao
 import com.ivanalvarado.architecture_components.network.StackOverflowSyncer

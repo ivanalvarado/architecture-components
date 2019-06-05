@@ -1,6 +1,5 @@
 package com.ivanalvarado.architecture_components.network.services
 
-import com.ivanalvarado.architecture_components.network.models.User
 import com.ivanalvarado.architecture_components.network.models.UsersResponse
 import retrofit2.Call
 import retrofit2.http.GET
