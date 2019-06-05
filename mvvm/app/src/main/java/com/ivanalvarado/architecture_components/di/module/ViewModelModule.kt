@@ -29,8 +29,8 @@ internal abstract class ViewModelModule {
     @ViewModelKey(UserListViewModel::class)
     protected abstract fun userListViewModel(userListViewModel: UserListViewModel): ViewModel
 
-    @Binds
-    @IntoMap
-    @ViewModelKey(UserDetailViewModel::class)
-    protected abstract fun userDetailViewModel(userDetailViewModel: UserDetailViewModel): ViewModel
+//    @Binds
+//    @IntoMap
+//    @ViewModelKey(UserDetailViewModel::class)
+//    protected abstract fun userDetailViewModel(userDetailViewModel: UserDetailViewModel): ViewModel
 }

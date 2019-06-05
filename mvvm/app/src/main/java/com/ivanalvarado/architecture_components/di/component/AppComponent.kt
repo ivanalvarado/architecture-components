@@ -3,8 +3,11 @@ package com.ivanalvarado.architecture_components.di.component
 import android.app.Application
 import com.ivanalvarado.architecture_components.AppController
 import com.ivanalvarado.architecture_components.di.module.*
+import com.ivanalvarado.architecture_components.viewmodel.UserDetailViewModel
+import com.squareup.inject.assisted.dagger2.AssistedModule
 import dagger.BindsInstance
 import dagger.Component
+import dagger.Module
 import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
@@ -23,7 +26,8 @@ import javax.inject.Singleton
         ViewModelModule::class,
         ActivityModule::class,
         AndroidSupportInjectionModule::class,
-        ConcurrencyModule::class]
+        ConcurrencyModule::class,
+        AssistedInjectModule::class]
 )
 @Singleton
 interface AppComponent {
@@ -48,4 +52,10 @@ interface AppComponent {
      * This is our custom Application class
      * */
     fun inject(appController: AppController)
+
+    val userDetailViewModelFactory: UserDetailViewModel.Factory
 }
+
+@AssistedModule
+@Module(includes = [AssistedInject_AssistedInjectModule::class])
+interface AssistedInjectModule

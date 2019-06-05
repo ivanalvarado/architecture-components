@@ -2,6 +2,7 @@ package com.ivanalvarado.architecture_components
 
 import android.app.Activity
 import android.app.Application
+import com.ivanalvarado.architecture_components.di.component.AppComponent
 import com.ivanalvarado.architecture_components.di.component.DaggerAppComponent
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
@@ -30,4 +31,12 @@ class AppController : Application(), HasActivityInjector {
             .build()
             .inject(this)
     }
+
+    val component: AppComponent by lazy {
+        DaggerAppComponent.builder()
+            .application(this)
+            .build()
+    }
 }
+
+val Activity.injector get() = (application as AppController).component

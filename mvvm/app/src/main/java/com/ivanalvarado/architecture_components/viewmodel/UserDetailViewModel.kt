@@ -6,18 +6,20 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.ivanalvarado.architecture_components.repository.UserRepository
 import com.ivanalvarado.architecture_components.repository.models.UserDetailModel
-import javax.inject.Inject
+import com.squareup.inject.assisted.Assisted
+import com.squareup.inject.assisted.AssistedInject
 
-class UserDetailViewModel @Inject constructor(private val userRepository: UserRepository) : ViewModel() {
+class UserDetailViewModel @AssistedInject constructor(
+    private val userRepository: UserRepository,
+    @Assisted private val userId: Int
+) : ViewModel() {
 
-    private lateinit var userId: String
     private val reloadTrigger = MutableLiveData<Boolean>()
     private val userDetail: LiveData<UserDetailModel> = Transformations.switchMap(reloadTrigger) {
-        userRepository.getUserDetail(userId, reloadTrigger.value!!)
+        userRepository.getUserDetail(userId.toString(), reloadTrigger.value!!)
     }
 
-    fun setUserId(userId: Int) {
-        this.userId = userId.toString()
+    init {
         refreshUserDetail()
     }
 
@@ -25,5 +27,10 @@ class UserDetailViewModel @Inject constructor(private val userRepository: UserRe
 
     fun refreshUserDetail(forceRefresh: Boolean = false) {
         reloadTrigger.value = forceRefresh
+    }
+
+    @AssistedInject.Factory
+    interface Factory {
+        fun create(userId: Int): UserDetailViewModel
     }
 }

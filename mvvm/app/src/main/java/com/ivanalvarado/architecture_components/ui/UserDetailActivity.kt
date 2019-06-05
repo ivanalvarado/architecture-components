@@ -5,22 +5,21 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ivanalvarado.architecture_components.R
-import com.ivanalvarado.architecture_components.viewmodel.UserDetailViewModel
+import com.ivanalvarado.architecture_components.injector
 import com.squareup.picasso.Picasso
 import dagger.android.AndroidInjection
-import javax.inject.Inject
 
 const val ARGUMENT_USER_ID = "ARGUMENT_USER_ID"
 
 class UserDetailActivity : AppCompatActivity() {
 
-    @Inject
-    internal lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var userDetailViewModel: UserDetailViewModel
+    private val userDetailViewModel by lazy {
+        injector.userDetailViewModelFactory.create(
+            userId = intent.getIntExtra(ARGUMENT_USER_ID, 0)
+        )
+    }
 
     // UI Widgets
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
@@ -35,11 +34,6 @@ class UserDetailActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_detail)
-
-        val userId = intent.getIntExtra(ARGUMENT_USER_ID, 0)
-
-        userDetailViewModel = ViewModelProviders.of(this, viewModelFactory).get(UserDetailViewModel::class.java)
-        userDetailViewModel.setUserId(userId)
 
         setUpUi()
         fetchUserDetail()
