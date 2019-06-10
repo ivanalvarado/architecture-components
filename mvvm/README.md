@@ -8,3 +8,4 @@ Simple app that uses Stack Exchange's public Stack Overflow API to
 - displays the user's profile image with Picasso
 - inject depencies with Dagger 2
 - follows the MVVM architecture pattern
+- Uses AssistedInject to pass Intent Arguments to ViewModel via Constructor with Dependency Injection
