@@ -21,13 +21,13 @@ class StackOverflowSyncer @Inject constructor(
     fun refreshUsers() {
         stackOverflowService.getUsers().enqueue(object : Callback<UsersResponse> {
             override fun onFailure(call: Call<UsersResponse>, t: Throwable) {
-                TODO("Failure for getUsers() not implemented")
+                TODO("Failure for getUserResponses() not implemented")
             }
 
             override fun onResponse(call: Call<UsersResponse>, response: Response<UsersResponse>) {
                 if (response.isSuccessful) {
                     val users = response.body()
-                    users?.users?.forEach {
+                    users?.userResponses?.forEach {
                         usersDao.insert(it.toUserEntity())
                     }
                 } else {
@@ -47,7 +47,7 @@ class StackOverflowSyncer @Inject constructor(
 
                 if (response.isSuccessful) {
                     val userDetail = response.body()
-                    userDetail?.users?.let {
+                    userDetail?.userResponses?.let {
                         userDetailDao.insert(it[0].toUserDetailEntity())
                     }
                 } else {

@@ -16,9 +16,9 @@ interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(users: List<UserEntity>): LongArray
 
-    @Query("SELECT * FROM users")
+    @Query("SELECT * FROM userResponses")
     fun getUsers(): List<UserEntity>
 
-    @Query("SELECT * FROM users ORDER BY reputation DESC")
+    @Query("SELECT * FROM userResponses ORDER BY reputation DESC")
     fun getUsersStream(): LiveData<List<UserEntity>>
 }

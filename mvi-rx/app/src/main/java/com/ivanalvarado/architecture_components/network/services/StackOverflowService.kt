@@ -7,9 +7,9 @@ import retrofit2.http.Path
 
 interface StackOverflowService {
 
-    @GET("users?order=desc&sort=reputation&site=stackoverflow")
+    @GET("userResponses?order=desc&sort=reputation&site=stackoverflow")
     fun getUsers(): Call<UsersResponse>
 
-    @GET("users/{id}?site=stackoverflow")
+    @GET("userResponses/{id}?site=stackoverflow")
     fun getUserDetail(@Path("id") id: String): Call<UsersResponse>
 }

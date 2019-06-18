@@ -6,12 +6,12 @@ import com.ivanalvarado.architecture_components.database.entity.UserEntity
 
 data class UsersResponse(
     @SerializedName("has_more") val has_more: Boolean,
-    @SerializedName("items") val users: List<User>,
+    @SerializedName("items") val userResponses: List<UserResponse>,
     @SerializedName("quota_max") val quota_max: Int,
     @SerializedName("quota_remaining") val quota_remaining: Int
 )
 
-data class User(
+data class UserResponse(
     @SerializedName("accept_rate") val accept_rate: Int,
     @SerializedName("account_id") val account_id: Int,
     @SerializedName("badge_counts") val badge_counts: BadgeCounts,
