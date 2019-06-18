@@ -1,5 +1,11 @@
-# Android Template
-Android Template project that has Architecture Components integrated out-of-the-box.
+# Architecture Components
+Implementation of Android's Architecture Components with Dagger 2, Room, LiveData, MVVM, and Retrofit.
 
-# References
-I want to give credit to [this Medium post](https://android.jlelse.eu/7-steps-to-implement-dagger-2-in-android-dabc16715a3a) that I found extremely useful for getting this project started.
+Simple app that uses Stack Exchange's public Stack Overflow API to 
+- fetch SO users with Retrofit + OkHttp 
+- inserts them into the app's DB with Room + SQLite 
+- displays the users as a list with LiveData + ViewModel
+- displays the user's profile image with Picasso
+- inject depencies with Dagger 2
+- follows the MVVM architecture pattern
+- passes Intent Arguments to ViewModel via Constructor with AssistedInject
