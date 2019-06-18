@@ -50,6 +50,9 @@ class UserListActivity : AppCompatActivity() {
 
         usersListView.setOnItemClickListener { parent: AdapterView<*>, view: View, position: Int, id: Long ->
             val user = usersListView.getItemAtPosition(position) as UserModel
+
+            userListViewModel.onUiEvent(UserListViewEvent.UserClick(user.userId))
+
             val intent = Intent(this, UserDetailActivity::class.java).apply {
                 putExtra(ARGUMENT_USER_ID, user.userId)
             }

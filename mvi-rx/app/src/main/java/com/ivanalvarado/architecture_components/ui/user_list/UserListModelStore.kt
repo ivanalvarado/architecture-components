@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 class UserListModelStore @Inject constructor() :
         ModelStore<UserListState>(
-            UserListState(
+            UserListState.Idle(
                 emptyList(),
                 SyncState.Idle
             )
