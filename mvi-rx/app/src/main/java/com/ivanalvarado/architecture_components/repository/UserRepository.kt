@@ -7,15 +7,23 @@ import com.ivanalvarado.architecture_components.database.dao.UserDetailDao
 import com.ivanalvarado.architecture_components.network.StackOverflowSyncer
 import com.ivanalvarado.architecture_components.repository.models.UserDetailModel
 import com.ivanalvarado.architecture_components.repository.models.UserModel
+import com.ivanalvarado.architecture_components.ui.user_list.User
+import io.reactivex.Single
 import javax.inject.Inject
 
-class UserRepository @Inject constructor(
+interface UserRepository {
+    fun getUsers(): LiveData<List<UserModel>>
+    fun getUsersRx(): Single<List<User>>
+    fun getUserDetail(userId: String, forceRefresh: Boolean): LiveData<UserDetailModel>
+}
+
+class UserRepositoryImpl @Inject constructor(
     private val userDao: UserDao,
     private val userDetailDao: UserDetailDao,
     private val stackOverflowSyncer: StackOverflowSyncer
-) {
+) : UserRepository {
 
-    fun getUsers(): LiveData<List<UserModel>> {
+    override fun getUsers(): LiveData<List<UserModel>> {
         stackOverflowSyncer.refreshUsers()
         return Transformations.map(userDao.getUsersStream()) { users ->
             users.map {
@@ -31,7 +39,18 @@ class UserRepository @Inject constructor(
         }
     }
 
-    fun getUserDetail(userId: String, forceRefresh: Boolean): LiveData<UserDetailModel> {
+    override fun getUsersRx(): Single<List<User>> {
+        return userDao.getUsersStreamRx().flatMap { userEntities ->
+            Single.just(
+                userEntities.map {
+                    User(it.id, it.userName, it.imageUrl)
+                }
+            )
+        }
+    }
+
+    override fun getUserDetail(userId: String, forceRefresh: Boolean): LiveData<UserDetailModel> {
+        // TODO("Only fetch if user pulls to refresh or if data is outdated")
         stackOverflowSyncer.refreshUserDetail(userId, forceRefresh)
         return Transformations.map(userDetailDao.getUserDetailStream(userId)) { userDetailEntity ->
             userDetailEntity?.let {
@@ -46,7 +65,5 @@ class UserRepository @Inject constructor(
                 )
             }
         }
-
-        TODO("Only fetch if user pulls to refresh or if data is outdated")
     }
 }

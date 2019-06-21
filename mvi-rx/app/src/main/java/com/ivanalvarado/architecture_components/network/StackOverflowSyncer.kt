@@ -10,7 +10,7 @@ import retrofit2.Response
 import java.util.concurrent.Executor
 import javax.inject.Inject
 
-class StackOverflowSyncer @Inject constructor(
+open class StackOverflowSyncer @Inject constructor(
     private val stackOverflowService: StackOverflowService,
     private val usersDao: UserDao,
     private val executor: Executor,

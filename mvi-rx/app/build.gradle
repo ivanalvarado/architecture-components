@@ -91,6 +91,7 @@ dependencies {
 
     testImplementation "com.nhaarman:mockito-kotlin-kt1.1:1.5.0"
     testImplementation 'org.robolectric:robolectric:4.3'
+    testImplementation "org.mockito:mockito-core:2.7.22"
 
     androidTestImplementation "com.android.support.test:runner:1.0.2"
     androidTestImplementation "com.android.support.test:rules:1.0.2"

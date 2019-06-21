@@ -6,6 +6,8 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.ivanalvarado.architecture_components.database.entity.UserEntity
+import io.reactivex.Single
+import java.util.*
 
 @Dao
 interface UserDao {
@@ -21,4 +23,7 @@ interface UserDao {
 
     @Query("SELECT * FROM userResponses ORDER BY reputation DESC")
     fun getUsersStream(): LiveData<List<UserEntity>>
+
+    @Query("SELECT * FROM userResponses ORDER BY reputation DESC")
+    fun getUsersStreamRx(): Single<List<UserEntity>>
 }
