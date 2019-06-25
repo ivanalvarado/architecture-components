@@ -9,6 +9,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
+/**
+ * Contains and executes the business logic for all emitted [MviAction]
+ * and returns one unique [Observable] of [MviResult].
+ *
+ *
+ * This could have been included inside the [MviViewModel]
+ * but was separated to ease maintenance, as the [MviViewModel] was getting too big.
+ */
 class UserListActionProcessor @Inject constructor(
     private val userRepository: UserRepositoryImpl
 ) {
