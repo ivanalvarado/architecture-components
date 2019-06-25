@@ -11,19 +11,19 @@ import com.ivanalvarado.architecture_components.ui.user_list.User
 import io.reactivex.Single
 import javax.inject.Inject
 
-interface UserRepository {
-    fun getUsers(): LiveData<List<UserModel>>
-    fun getUsersRx(): Single<List<User>>
-    fun getUserDetail(userId: String, forceRefresh: Boolean): LiveData<UserDetailModel>
-}
+//interface UserRepository {
+//    fun getUsers(): LiveData<List<UserModel>>
+//    fun getUsersRx(): Single<List<User>>
+//    fun getUserDetail(userId: String, forceRefresh: Boolean): LiveData<UserDetailModel>
+//}
 
 class UserRepositoryImpl @Inject constructor(
     private val userDao: UserDao,
     private val userDetailDao: UserDetailDao,
     private val stackOverflowSyncer: StackOverflowSyncer
-) : UserRepository {
+) {
 
-    override fun getUsers(): LiveData<List<UserModel>> {
+    fun getUsers(): LiveData<List<UserModel>> {
         stackOverflowSyncer.refreshUsers()
         return Transformations.map(userDao.getUsersStream()) { users ->
             users.map {
@@ -39,7 +39,8 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getUsersRx(): Single<List<User>> {
+    fun getUsersRx(): Single<List<User>> {
+        stackOverflowSyncer.refreshUsers()
         return userDao.getUsersStreamRx().flatMap { userEntities ->
             Single.just(
                 userEntities.map {
@@ -49,7 +50,7 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getUserDetail(userId: String, forceRefresh: Boolean): LiveData<UserDetailModel> {
+    fun getUserDetail(userId: String, forceRefresh: Boolean): LiveData<UserDetailModel> {
         // TODO("Only fetch if user pulls to refresh or if data is outdated")
         stackOverflowSyncer.refreshUserDetail(userId, forceRefresh)
         return Transformations.map(userDetailDao.getUserDetailStream(userId)) { userDetailEntity ->

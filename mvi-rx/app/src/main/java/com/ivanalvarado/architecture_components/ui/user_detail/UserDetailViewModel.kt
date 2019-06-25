@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.ivanalvarado.architecture_components.repository.UserRepository
 import com.ivanalvarado.architecture_components.repository.UserRepositoryImpl
 import com.ivanalvarado.architecture_components.repository.models.UserDetailModel
 import com.squareup.inject.assisted.Assisted

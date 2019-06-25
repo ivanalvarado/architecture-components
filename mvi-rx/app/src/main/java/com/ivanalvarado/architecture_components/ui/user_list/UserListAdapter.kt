@@ -12,7 +12,7 @@ import android.widget.TextView
 import com.ivanalvarado.architecture_components.R
 import com.squareup.picasso.Picasso
 
-class UserListAdapter constructor(private val context: Context, private var users: List<UserModel>) : BaseAdapter() {
+class UserListAdapter constructor(private val context: Context, private var users: List<User>) : BaseAdapter() {
 
     private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
@@ -27,7 +27,7 @@ class UserListAdapter constructor(private val context: Context, private var user
         return itemView
     }
 
-    override fun getItem(position: Int): UserModel {
+    override fun getItem(position: Int): User {
         return users[position]
     }
 
@@ -39,7 +39,7 @@ class UserListAdapter constructor(private val context: Context, private var user
         return users.size
     }
 
-    fun setUserList(users: List<UserModel>) {
+    fun setUserList(users: List<User>) {
         this.users = users
         notifyDataSetChanged()
     }
