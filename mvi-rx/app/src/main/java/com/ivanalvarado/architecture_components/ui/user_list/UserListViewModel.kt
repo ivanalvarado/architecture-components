@@ -67,6 +67,7 @@ class UserListViewModel @Inject constructor(
         return when (intent) {
             UserListIntent.InitialIntent -> UserListAction.LoadUsersAction
             UserListIntent.RefreshIntent -> UserListAction.LoadUsersAction
+            is UserListIntent.SearchIntent -> UserListAction.SearchUsersAction(intent.searchTerm)
         }
     }
 
@@ -104,6 +105,7 @@ class UserListViewModel @Inject constructor(
                         previousState.copy(isLoading = true)
                     }
                 }
+                is UserListResult.SearchUsersResult -> previousState.copy(users = result.users)
             }
 
         }

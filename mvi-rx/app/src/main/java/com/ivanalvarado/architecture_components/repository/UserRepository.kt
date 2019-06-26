@@ -50,6 +50,21 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
+    fun getUsersRx(searchTerm: String): Single<List<User>> {
+        return userDao.getUsersStreamRx(searchTerm).flatMap { userEntities ->
+            if (userEntities.isNotEmpty()) {
+                Single.just(
+                    userEntities.map {
+                        User(it.id, it.userName, it.imageUrl)
+                    }
+                )
+            } else {
+                Single.just(emptyList())
+            }
+
+        }
+    }
+
     fun getUserDetail(userId: String, forceRefresh: Boolean): LiveData<UserDetailModel> {
         // TODO("Only fetch if user pulls to refresh or if data is outdated")
         stackOverflowSyncer.refreshUserDetail(userId, forceRefresh)

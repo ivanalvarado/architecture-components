@@ -1,8 +1,8 @@
 package com.ivanalvarado.architecture_components.ui.user_list
 
 import com.ivanalvarado.architecture_components.repository.UserRepositoryImpl
-import com.ivanalvarado.architecture_components.ui.user_list.UserListAction.LoadUsersAction
-import com.ivanalvarado.architecture_components.ui.user_list.UserListResult.LoadUsersResult
+import com.ivanalvarado.architecture_components.ui.user_list.UserListAction.*
+import com.ivanalvarado.architecture_components.ui.user_list.UserListResult.*
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -44,6 +44,19 @@ class UserListActionProcessor @Inject constructor(
             }
         }
 
+    private val searchUsersProcessor =
+        ObservableTransformer<SearchUsersAction, SearchUsersResult> { actions ->
+            actions.flatMap {
+                userRepository.getUsersRx(it.searchTerm)
+                    .toObservable()
+                    .map { users -> SearchUsersResult(users) }
+                    .cast(SearchUsersResult::class.java)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+            }
+
+        }
+
     /**
      * Splits the [Observable] to match each type of [MviAction] to
      * its corresponding business logic processor. Each processor takes a defined [MviAction],
@@ -60,9 +73,12 @@ class UserListActionProcessor @Inject constructor(
      * at runtime to easy the maintenance.
      */
     internal var actionProcessor =
-        ObservableTransformer<UserListAction, LoadUsersResult> { actions ->
+        ObservableTransformer<UserListAction, UserListResult> { actions ->
             actions.publish { userAction ->
-                userAction.ofType(LoadUsersAction::class.java).compose(loadUsersProcessor)
+                Observable.merge(
+                    userAction.ofType(LoadUsersAction::class.java).compose(loadUsersProcessor),
+                    userAction.ofType(SearchUsersAction::class.java).compose(searchUsersProcessor)
+                )
             }
         }
 }

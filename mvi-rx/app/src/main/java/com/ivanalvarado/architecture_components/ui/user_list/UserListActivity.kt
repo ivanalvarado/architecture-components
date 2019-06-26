@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ListView
+import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -16,6 +17,7 @@ import com.ivanalvarado.architecture_components.repository.models.UserModel
 import com.ivanalvarado.architecture_components.ui.user_detail.ARGUMENT_USER_ID
 import com.ivanalvarado.architecture_components.ui.user_detail.UserDetailActivity
 import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
+import com.jakewharton.rxbinding2.widget.RxSearchView
 import dagger.android.AndroidInjection
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -31,6 +33,7 @@ class UserListActivity : AppCompatActivity(), MviView<UserListIntent, UserListVi
     // UI Widgets
     private lateinit var usersListView: ListView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var searchView: SearchView
 
     private val disposables = CompositeDisposable()
 
@@ -45,12 +48,12 @@ class UserListActivity : AppCompatActivity(), MviView<UserListIntent, UserListVi
     }
 
     private fun setUpUi() {
-        userListAdapter = UserListAdapter(this, emptyList())
         usersListView = findViewById(R.id.user_list)
-        usersListView.adapter = userListAdapter
         swipeRefreshLayout = findViewById(R.id.user_list_swipe_refresh_layout)
-        swipeRefreshLayout.setOnRefreshListener {
-        }
+        searchView = findViewById(R.id.user_list_search_view)
+
+        userListAdapter = UserListAdapter(this, emptyList())
+        usersListView.adapter = userListAdapter
 
         usersListView.setOnItemClickListener { _: AdapterView<*>, _: View, position: Int, _: Long ->
             val user = usersListView.getItemAtPosition(position) as User
@@ -73,7 +76,8 @@ class UserListActivity : AppCompatActivity(), MviView<UserListIntent, UserListVi
     override fun intents(): Observable<UserListIntent> {
         return Observable.merge(
             initialIntent(),
-            refreshIntent()
+            refreshIntent(),
+            searchIntent()
         )
     }
 
@@ -98,5 +102,11 @@ class UserListActivity : AppCompatActivity(), MviView<UserListIntent, UserListVi
     private fun refreshIntent(): Observable<UserListIntent.RefreshIntent> {
         return RxSwipeRefreshLayout.refreshes(swipeRefreshLayout)
             .map { UserListIntent.RefreshIntent }
+    }
+
+    private fun searchIntent(): Observable<UserListIntent.SearchIntent> {
+        return RxSearchView.queryTextChanges(searchView).map {
+            UserListIntent.SearchIntent(it.toString())
+        }
     }
 }

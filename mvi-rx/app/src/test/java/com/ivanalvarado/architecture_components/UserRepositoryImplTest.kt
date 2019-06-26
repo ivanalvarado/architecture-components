@@ -4,7 +4,6 @@ import com.ivanalvarado.architecture_components.database.dao.UserDao
 import com.ivanalvarado.architecture_components.database.dao.UserDetailDao
 import com.ivanalvarado.architecture_components.database.entity.UserEntity
 import com.ivanalvarado.architecture_components.network.StackOverflowSyncer
-import com.ivanalvarado.architecture_components.repository.UserRepository
 import com.ivanalvarado.architecture_components.repository.UserRepositoryImpl
 import com.ivanalvarado.architecture_components.ui.user_list.User
 import com.ivanalvarado.architecture_components.util.MockitoTest
@@ -17,7 +16,7 @@ import org.mockito.Mockito.`when`
 
 class UserRepositoryTest : MockitoTest() {
 
-    private lateinit var userRepository: UserRepository
+    private lateinit var userRepository: UserRepositoryImpl
 
     @Mock
     lateinit var userDao: UserDao

@@ -8,4 +8,6 @@ sealed class UserListResult : MviResult {
         data class Failure(val error: Throwable) : LoadUsersResult()
         object InFlight : LoadUsersResult()
     }
+
+    data class SearchUsersResult(val users: List<User>): UserListResult()
 }

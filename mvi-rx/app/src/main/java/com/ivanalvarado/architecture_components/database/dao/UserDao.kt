@@ -26,4 +26,7 @@ interface UserDao {
 
     @Query("SELECT * FROM userResponses ORDER BY reputation DESC")
     fun getUsersStreamRx(): Single<List<UserEntity>>
+
+    @Query("SELECT * FROM userResponses WHERE user_name LIKE '%' || :searchTerm || '%' ORDER BY reputation DESC")
+    fun getUsersStreamRx(searchTerm: String): Single<List<UserEntity>>
 }
