@@ -7,13 +7,11 @@ import android.widget.AdapterView
 import android.widget.ListView
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ivanalvarado.architecture_components.R
 import com.ivanalvarado.architecture_components.di.viewModel
 import com.ivanalvarado.architecture_components.injector
 import com.ivanalvarado.architecture_components.mvibase.MviView
-import com.ivanalvarado.architecture_components.repository.models.UserModel
 import com.ivanalvarado.architecture_components.ui.user_detail.ARGUMENT_USER_ID
 import com.ivanalvarado.architecture_components.ui.user_detail.UserDetailActivity
 import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
@@ -21,10 +19,11 @@ import com.jakewharton.rxbinding2.widget.RxSearchView
 import dagger.android.AndroidInjection
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.subjects.PublishSubject
 
 class UserListActivity : AppCompatActivity(), MviView<UserListIntent, UserListViewState> {
 
-    private val viewModel by viewModel{
+    private val viewModel by viewModel {
         injector.userListViewModel
     }
 
@@ -36,6 +35,7 @@ class UserListActivity : AppCompatActivity(), MviView<UserListIntent, UserListVi
     private lateinit var searchView: SearchView
 
     private val disposables = CompositeDisposable()
+    private val refreshIntentPublisher: PublishSubject<UserListIntent.RefreshIntent> = PublishSubject.create()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -45,6 +45,11 @@ class UserListActivity : AppCompatActivity(), MviView<UserListIntent, UserListVi
 
         setUpUi()
         bind()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        refreshIntentPublisher.onNext(UserListIntent.RefreshIntent)
     }
 
     private fun setUpUi() {
@@ -102,6 +107,7 @@ class UserListActivity : AppCompatActivity(), MviView<UserListIntent, UserListVi
     private fun refreshIntent(): Observable<UserListIntent.RefreshIntent> {
         return RxSwipeRefreshLayout.refreshes(swipeRefreshLayout)
             .map { UserListIntent.RefreshIntent }
+            .mergeWith(refreshIntentPublisher)
     }
 
     private fun searchIntent(): Observable<UserListIntent.SearchIntent> {

@@ -27,7 +27,7 @@ class UserListActionProcessor @Inject constructor(
                 userRepository.getUsersRx()
                     // Transform the Single to an Observable to allow emission of multiple
                     // events down the stream (e.g. the InFlight event)
-                    .toObservable()
+//                    .toObservable()
                     // Wrap returned data into an immutable object
                     .map { users -> LoadUsersResult.Success(users) }
                     .cast(LoadUsersResult::class.java)

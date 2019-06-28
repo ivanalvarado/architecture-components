@@ -9,13 +9,15 @@ import com.ivanalvarado.architecture_components.network.StackOverflowSyncer
 import com.ivanalvarado.architecture_components.repository.models.UserDetailModel
 import com.ivanalvarado.architecture_components.repository.models.UserModel
 import com.ivanalvarado.architecture_components.ui.user_list.User
+import io.reactivex.Observable
+import io.reactivex.ObservableTransformer
 import io.reactivex.Single
 import io.reactivex.SingleTransformer
 import javax.inject.Inject
 
 interface UserRepository {
     fun getUsers(): LiveData<List<UserModel>>
-    fun getUsersRx(): Single<List<User>>
+    fun getUsersRx(): Observable<List<User>>
     fun getUsersRx(searchTerm: String): Single<List<User>>
     fun getUserDetail(userId: String, forceRefresh: Boolean): LiveData<UserDetailModel>
 }
@@ -42,7 +44,7 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getUsersRx(): Single<List<User>> {
+    override fun getUsersRx(): Observable<List<User>> {
         stackOverflowSyncer.refreshUsers()
         return userDao.getUsersStreamRx().compose(userEntityToUser)
     }
@@ -80,9 +82,9 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    private val userEntityToUser = SingleTransformer<List<UserEntity>, List<User>> { singleUserEntityList ->
+    private val userEntityToUser = ObservableTransformer<List<UserEntity>, List<User>> { singleUserEntityList ->
         singleUserEntityList.flatMap { userEntities ->
-            Single.just(userEntities.map { User(it.id, it.userName, it.imageUrl) })
+            Observable.just(userEntities.map { User(it.id, it.userName, it.imageUrl) })
         }
     }
 }
