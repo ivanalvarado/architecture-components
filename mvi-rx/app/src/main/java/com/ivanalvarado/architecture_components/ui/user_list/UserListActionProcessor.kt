@@ -48,7 +48,6 @@ class UserListActionProcessor @Inject constructor(
         ObservableTransformer<SearchUsersAction, SearchUsersResult> { actions ->
             actions.flatMap {
                 userRepository.getUsersRx(it.searchTerm)
-                    .toObservable()
                     .map { users -> SearchUsersResult(users) }
                     .cast(SearchUsersResult::class.java)
                     .subscribeOn(Schedulers.io())

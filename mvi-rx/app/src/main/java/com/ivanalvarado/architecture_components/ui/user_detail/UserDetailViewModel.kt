@@ -8,25 +8,47 @@ import com.ivanalvarado.architecture_components.repository.UserRepositoryImpl
 import com.ivanalvarado.architecture_components.repository.models.UserDetailModel
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 
 class UserDetailViewModel @AssistedInject constructor(
     private val userRepository: UserRepositoryImpl,
     @Assisted private val userId: Int
 ) : ViewModel() {
 
+    private val disposables = CompositeDisposable()
+
     private val reloadTrigger = MutableLiveData<Boolean>()
+    private val _userDetailStream = MutableLiveData<UserDetailModel>()
     private val userDetail: LiveData<UserDetailModel> = Transformations.switchMap(reloadTrigger) {
         userRepository.getUserDetail(userId.toString(), reloadTrigger.value!!)
     }
 
+    val userDetailStream: LiveData<UserDetailModel> get() = _userDetailStream
+
     init {
-        refreshUserDetail()
+//        refreshUserDetail()
     }
 
     fun getUserDetail(): LiveData<UserDetailModel> = userDetail
 
     fun refreshUserDetail(forceRefresh: Boolean = false) {
         reloadTrigger.value = forceRefresh
+    }
+
+    fun getUserDetailStream(forceRefresh: Boolean) {
+        disposables.add(userRepository.getUserDetailRx(userId.toString(), forceRefresh)
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.io())
+            .subscribe { userDetail ->
+                _userDetailStream.postValue(userDetail)
+            })
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        disposables.dispose()
     }
 
     @AssistedInject.Factory

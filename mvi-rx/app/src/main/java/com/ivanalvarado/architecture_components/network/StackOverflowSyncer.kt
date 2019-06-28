@@ -39,22 +39,16 @@ open class StackOverflowSyncer @Inject constructor(
     }
 
     fun refreshUserDetail(userId: String, forceRefresh: Boolean) {
-
-        executor.execute {
-            val userExists = userDetailDao.hasUserDetail(userId /* TODO("Add timestamp in milliseconds") */)
-
-            if (!userExists || forceRefresh) {
-                val response = stackOverflowService.getUserDetail(userId).execute()
-
-                if (response.isSuccessful) {
-                    val userDetail = response.body()
-                    userDetail?.userResponses?.let {
-                        userDetailDao.insert(it[0].toUserDetailEntity())
-                    }
-                } else {
-                    TODO("Unsuccessful response not implemented")
+        userDetailDao.hasUserDetailRx(userId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.io())
+            .subscribe { usersExists ->
+                if (!usersExists || forceRefresh) {
+                    stackOverflowService.getUserDetailRx(userId)
+                        .subscribe { userDetailResponse ->
+                            userDetailDao.insert(userDetailResponse.userResponses[0].toUserDetailEntity())
+                        }
                 }
             }
-        }
     }
 }

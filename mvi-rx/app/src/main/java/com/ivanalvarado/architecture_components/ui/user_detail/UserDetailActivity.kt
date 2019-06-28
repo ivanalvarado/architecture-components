@@ -48,12 +48,13 @@ class UserDetailActivity : AppCompatActivity() {
         userTypeTextView = findViewById(R.id.user_detail_type_text_view)
         swipeRefreshLayout = findViewById(R.id.user_detail_swipe_refresh_layout)
         swipeRefreshLayout.setOnRefreshListener {
-            userDetailViewModel.refreshUserDetail(forceRefresh = true)
+            userDetailViewModel.getUserDetailStream(forceRefresh = true)
+//            userDetailViewModel.refreshUserDetail(forceRefresh = true)
         }
     }
 
     private fun fetchUserDetail() {
-        userDetailViewModel.getUserDetail().observe(this, Observer { userDetail ->
+        userDetailViewModel.userDetailStream.observe(this, Observer { userDetail ->
             swipeRefreshLayout.isRefreshing = false
             userDetail?.let {
                 Picasso.get().load(it.imageUrl).into(userProfileImage)

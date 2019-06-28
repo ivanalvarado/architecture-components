@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.ivanalvarado.architecture_components.database.dao.UserDao
 import com.ivanalvarado.architecture_components.database.dao.UserDetailDao
+import com.ivanalvarado.architecture_components.database.entity.UserDetailEntity
 import com.ivanalvarado.architecture_components.database.entity.UserEntity
 import com.ivanalvarado.architecture_components.network.StackOverflowSyncer
 import com.ivanalvarado.architecture_components.repository.models.UserDetailModel
@@ -18,8 +19,9 @@ import javax.inject.Inject
 interface UserRepository {
     fun getUsers(): LiveData<List<UserModel>>
     fun getUsersRx(): Observable<List<User>>
-    fun getUsersRx(searchTerm: String): Single<List<User>>
+    fun getUsersRx(searchTerm: String): Observable<List<User>>
     fun getUserDetail(userId: String, forceRefresh: Boolean): LiveData<UserDetailModel>
+    fun getUserDetailRx(userId: String, forceRefresh: Boolean): Single<UserDetailModel>
 }
 
 class UserRepositoryImpl @Inject constructor(
@@ -49,19 +51,8 @@ class UserRepositoryImpl @Inject constructor(
         return userDao.getUsersStreamRx().compose(userEntityToUser)
     }
 
-    override fun getUsersRx(searchTerm: String): Single<List<User>> {
-        return userDao.getUsersStreamRx(searchTerm).flatMap { userEntities ->
-            if (userEntities.isNotEmpty()) {
-                Single.just(
-                    userEntities.map {
-                        User(it.id, it.userName, it.imageUrl)
-                    }
-                )
-            } else {
-                Single.just(emptyList())
-            }
-
-        }
+    override fun getUsersRx(searchTerm: String): Observable<List<User>> {
+        return userDao.getUsersStreamRx(searchTerm).compose(userEntityToUser)
     }
 
     override fun getUserDetail(userId: String, forceRefresh: Boolean): LiveData<UserDetailModel> {
@@ -82,9 +73,32 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun getUserDetailRx(userId: String, forceRefresh: Boolean): Single<UserDetailModel> {
+        stackOverflowSyncer.refreshUserDetail(userId, forceRefresh)
+        return userDetailDao.getUserDetailStreamRx(userId)
+            .compose(userDetailEntityToUserDetail)
+    }
+
     private val userEntityToUser = ObservableTransformer<List<UserEntity>, List<User>> { singleUserEntityList ->
         singleUserEntityList.flatMap { userEntities ->
             Observable.just(userEntities.map { User(it.id, it.userName, it.imageUrl) })
         }
     }
+
+    private val userDetailEntityToUserDetail =
+        SingleTransformer<UserDetailEntity, UserDetailModel> { singleUserDetailEntity ->
+            singleUserDetailEntity.flatMap {
+                Single.just(
+                    UserDetailModel(
+                        it.userName,
+                        it.reputation,
+                        it.imageUrl,
+                        it.websiteUrl,
+                        it.acceptRate,
+                        it.location,
+                        it.userType
+                    )
+                )
+            }
+        }
 }
