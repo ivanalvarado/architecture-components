@@ -1,5 +1,6 @@
 package com.ivanalvarado.architecture_components.ui.user_list
 
+import android.animation.Animator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
@@ -9,6 +10,7 @@ import com.ivanalvarado.architecture_components.repository.models.UserModel
 import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.TextView
+import com.airbnb.lottie.LottieAnimationView
 import com.ivanalvarado.architecture_components.R
 import com.squareup.picasso.Picasso
 
@@ -21,6 +23,10 @@ class UserListAdapter constructor(private val context: Context, private var user
         val itemView = inflater.inflate(R.layout.user_list_item, parent, false)
         val userImage = itemView.findViewById<ImageView>(R.id.user_list_profile_image)
         val userName = itemView.findViewById<TextView>(R.id.user_list_name_text_view)
+        val likeIt = itemView.findViewById<LottieAnimationView>(R.id.like_it_animation_view)
+        likeIt.setOnClickListener {
+            likeIt.playAnimation()
+        }
         val userImageUrl = users[position].imageUrl
         userName.text = users[position].userName
         Picasso.get().load(userImageUrl).into(userImage)
