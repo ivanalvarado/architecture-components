@@ -32,7 +32,7 @@ class UserDetailViewModel @AssistedInject constructor(
     val userDetailStream: LiveData<UserDetailModel> get() = _userDetailStream
 
     init {
-//        refreshUserDetail()
+        getUserDetailStream(forceRefresh = true)
     }
 
     fun getUserDetail(): LiveData<UserDetailModel> = userDetail
