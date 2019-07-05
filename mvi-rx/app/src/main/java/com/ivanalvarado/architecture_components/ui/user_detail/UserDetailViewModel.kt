@@ -1,5 +1,6 @@
 package com.ivanalvarado.architecture_components.ui.user_detail
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -11,11 +12,14 @@ import com.squareup.inject.assisted.AssistedInject
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 
 class UserDetailViewModel @AssistedInject constructor(
     private val userRepository: UserRepositoryImpl,
     @Assisted private val userId: Int
 ) : ViewModel() {
+
+    private val TAG = UserDetailViewModel::class.java.simpleName
 
     private val disposables = CompositeDisposable()
 
@@ -38,12 +42,16 @@ class UserDetailViewModel @AssistedInject constructor(
     }
 
     fun getUserDetailStream(forceRefresh: Boolean) {
-        disposables.add(userRepository.getUserDetailRx(userId.toString(), forceRefresh)
-            .subscribeOn(Schedulers.io())
-            .observeOn(Schedulers.io())
-            .subscribe { userDetail ->
-                _userDetailStream.postValue(userDetail)
-            })
+        disposables.add(
+            userRepository.getUserDetailRx(userId.toString(), forceRefresh)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe({ userDetail ->
+                    _userDetailStream.postValue(userDetail)
+                }, { error ->
+                    Timber.e(error.localizedMessage)
+                })
+        )
     }
 
     override fun onCleared() {

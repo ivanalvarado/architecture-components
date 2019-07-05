@@ -21,7 +21,7 @@ interface UserRepository {
     fun getUsersRx(): Observable<List<User>>
     fun getUsersRx(searchTerm: String): Observable<List<User>>
     fun getUserDetail(userId: String, forceRefresh: Boolean): LiveData<UserDetailModel>
-    fun getUserDetailRx(userId: String, forceRefresh: Boolean): Single<UserDetailModel>
+    fun getUserDetailRx(userId: String, forceRefresh: Boolean): Observable<UserDetailModel>
 }
 
 class UserRepositoryImpl @Inject constructor(
@@ -73,7 +73,7 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getUserDetailRx(userId: String, forceRefresh: Boolean): Single<UserDetailModel> {
+    override fun getUserDetailRx(userId: String, forceRefresh: Boolean): Observable<UserDetailModel> {
         stackOverflowSyncer.refreshUserDetail(userId, forceRefresh)
         return userDetailDao.getUserDetailStreamRx(userId)
             .compose(userDetailEntityToUserDetail)
@@ -86,9 +86,9 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     private val userDetailEntityToUserDetail =
-        SingleTransformer<UserDetailEntity, UserDetailModel> { singleUserDetailEntity ->
+        ObservableTransformer<UserDetailEntity, UserDetailModel> { singleUserDetailEntity ->
             singleUserDetailEntity.flatMap {
-                Single.just(
+                Observable.just(
                     UserDetailModel(
                         it.userName,
                         it.reputation,

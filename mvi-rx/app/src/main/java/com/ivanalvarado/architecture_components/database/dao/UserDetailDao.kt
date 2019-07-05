@@ -28,5 +28,5 @@ interface UserDetailDao {
     fun getUserDetailStream(id: String): LiveData<UserDetailEntity>
 
     @Query("SELECT * FROM user_detail WHERE id = :id")
-    fun getUserDetailStreamRx(id: String): Single<UserDetailEntity>
+    fun getUserDetailStreamRx(id: String): Observable<UserDetailEntity>
 }
